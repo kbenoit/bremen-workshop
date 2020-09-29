@@ -45,8 +45,8 @@ print(toks_immig, max_ntoken = 5, max_ndoc = 3)
 
 ```{r}
 toks_immig_select <- tokens_keep(toks_immig,
-                                   pattern = c("immig*", "migra*"),
-                                   padding = TRUE)
+                                 pattern = c("immig*", "migra*"),
+                                 padding = TRUE)
 print(toks_immig_select, max_ntoken = 5, max_ndoc = 3)
 ```
 

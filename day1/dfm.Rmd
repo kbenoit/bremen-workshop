@@ -1,0 +1,70 @@
+---
+title: "Creating and working with dfm objects"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+
+corp_immig <- corpus(data_char_ukimmig2010)
+toks_immig <- tokens(corp_immig)
+```
+
+
+
+### Exercise
+
+1. Create a document-feature matrix from the tokens object above.
+2. Get the 50 most frequent terms using `topfeatures()`.
+3. Compare this to the results of calling `textstat_frequency()`.
+
+
+## Selecting features based on frequencies
+
+On term frequency:
+```{r}
+data(data_corpus_irishbudget2010, package = "quanteda.textmodels")
+toks_ire <- tokens(data_corpus_irishbudget2010)
+dfmat_ire <- dfm(toks_ire) # dfm() transforms to lower case by default
+
+nfeat(dfmat_ire)
+dfmat_ire_trim1 <- dfm_trim(dfmat_ire, 
+                       min_termfreq = 5)
+nfeat(dfmat_ire_trim1)
+```
+
+### Exercise
+
+For this, you will need to examine the manual page for `dfm_trim()`.
+
+1. Trim the dfm to include only terms with a minimum document frequency of 5.  What does this mean, exactly?
+2. Trim the documents to include only features that occur in 10% of all documents.
+3. Trim all but the top 20 most frequent features.
+
+
+## Weighting a dfm
+
+
+### Exercise
+
+```{r}
+texts <- c("apple is better than banana",
+           "banana banana apple much better")
+dfm(texts)
+```
+
+
+1. Create a dfm from the two documents above, and weight it using `dfm_weight()`. 
+2. For `dfm_weight()` try out the `scheme` arguments "count", "boolean" and "prop". 
+3. What are advantages and problems of each weighting scheme?
+4. Weight the dfm using td-idf weighting.
+
+
