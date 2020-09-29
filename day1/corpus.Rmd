@@ -1,0 +1,80 @@
+---
+title: "Creating and working with corpus objects"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+```
+
+## Using **magrittr**'s pipe
+
+```{r}
+data_corpus_inaugural %>% 
+    corpus_subset(President == "Obama") %>% 
+    ndoc()
+```
+
+### Exercise
+
+Add a step to the above to convert the documents in the corpus into sentences.  Hint: Insert a step calling `corpus_reshape()`.
+
+
+## Access number of types and tokens of corpus
+
+```{r}
+ntype(data_corpus_inaugural) %>% 
+    head()
+
+ntoken(data_corpus_inaugural) %>% 
+    head()
+```
+
+
+
+## Overview of document-level variables
+
+```{r}
+head(docvars(data_corpus_inaugural))
+```
+
+### Exercise
+
+1. Based on `data_corpus_inaugural`, create an object `data_corpus_postwar` (speeches since 1945).
+2. What speech has most tokens? What speech has most types?
+
+Note: You can find the documentation and examples using `?` followed by the name of the function.
+
+
+## Adding document-level variables
+
+```{r}
+# new docvar: PresidentFull
+docvars(data_corpus_inaugural, "Order") <- 1:ndoc(data_corpus_inaugural)
+
+head(docvars(data_corpus_inaugural, "Order"))
+
+# new docvar: PresidentFull
+docvars(data_corpus_inaugural, "PresidentFull") <- 
+    paste(docvars(data_corpus_inaugural, "FirstName"),
+          docvars(data_corpus_inaugural, "President"),
+          sep = " ")
+
+head(docvars(data_corpus_inaugural))
+```
+
+### Exercise
+
+1. See `?docvars`.  Is there another way to add docvars, using an operator?  Can you reproduce the code above using that method?
+2. Tokenize the corpus object to which you have added docvars.  Are the docvars still in the tokens object?
+3. Make a dfm from the corpus object.  Are the docvars still in the dfm object?
+
+

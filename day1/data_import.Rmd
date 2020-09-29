@@ -1,0 +1,71 @@
+---
+title: "Importing data to create corpora"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+# load the readtext package
+library(readtext)
+
+# data_dir is the location of sample files on your computer.
+data_dir <- system.file("extdata/", package = "readtext")
+
+eu_data <- readtext(paste0(data_dir, "/txt/EU_manifestos/*.txt"),
+                    docvarsfrom = "filenames", 
+                    docvarnames = c("unit", 
+                                    "context", 
+                                    "year", 
+                                    "language",
+                                    "party"),
+                    dvsep = "_", 
+                    encoding = "ISO-8859-1")
+```
+
+
+## Structure of **readtext** data frame
+
+```{r}
+head(eu_data)
+```
+
+
+## Check the encoding 
+
+```{r}
+file <- system.file("extdata/txt/EU_manifestos/EU_euro_2004_de_V.txt", 
+                    package = "readtext")
+
+myreadtext <- readtext(file)
+encoding(myreadtext)
+```
+
+
+
+### Exercise
+
+1. Set up a RProj in a new folder.
+2. Download ZIP file with inaugural speeches by German chancellors (https://tinyurl.com/corp-regierung)
+3. Copy the folder into your RProj folder.
+4. Import all text files using `readtext()`. (Hint: "name_of_folder/*" reads in all files)
+5. Create a text corpus of this data frame. 
+
+
+## Working with the new corpus (optional)
+
+Now we will tidy up the document variables, and then search for some terms and plot them as an "x-ray" plot.
+
+### Exercise
+
+1. Create better `docnames` by pasting "Year" and "Chancellor" together.
+2. Select speeches by Gerhard Schröder and Angela Merkel.
+3. Use `kwic()` to select the terms "Arbeits*", "Arbeitslos*" and "Migration*"
+4. Send the results of the `kwic()` call to `?textplot_xray()`.
+
