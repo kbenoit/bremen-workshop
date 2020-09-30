@@ -1,0 +1,78 @@
+---
+title: "Wrapping up day 1 - From a data frame to a dfm"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+```
+
+
+## Setting up an R Project
+
+- Set up a new R Project (`File -> New Project -> New Directory -> New Project`)
+- Create a subfolder called `data`.
+- Download corpus of Drucksachen from the GitHub repo (stored in `data`).
+- Copy and paste this file into `data`
+
+
+## Exercise
+
+1. Load the data frame into R using `dat_raw <- readRDS("data/data_corpus_drucksachen_sample.rds")`.
+
+```{r}
+
+```
+
+2. Create a text corpus from this data frame using `corpus()`.
+
+```{r}
+
+```
+
+3. Based on `kwic()` explore the usage of the terms of your choice and/or "Versorgung*" and "Sozialpolitik*".
+
+```{r}
+
+```
+
+4. Change the number of surrounding words to ±10.
+
+```{r}
+
+```
+
+5. Create a tokens object.
+
+```{r}
+
+```
+
+6. Construct a document-feature matrix (`dfm()`). and remove German stopwords, punctuation, and the term "dass".
+
+```{r}
+
+```
+
+7. Get the 100 most frequent terms using `topfeatures()`.
+
+```{r}
+
+```
+
+8. BONUS: Create a word cloud with the 100 most frequent terms.
+
+```{r}
+
+```
+
+
+

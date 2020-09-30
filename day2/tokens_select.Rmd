@@ -1,0 +1,50 @@
+---
+title: "Selecting tokens and analysing the immediate context"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+
+# required to use quanteda corpora
+# library(devtools)
+# devtools::install_github("quanteda/quanteda.corpora")
+library("quanteda.corpora")
+```
+
+
+
+## Exercise
+
+1. Use `data_corpus_guardian` from the **quanteda.corpora** package using: `data_corpus_guardian <- quanteda.corpora::download('data_corpus_guardian')`.
+
+```{r}
+
+```
+
+2. Create a `tokens` object and remove stopwords and punctuation.
+
+```{r}
+
+```
+
+3. Keep only the term "Brexit*" and a window of 5 words.
+
+```{r}
+
+```
+
+4. Which terms co-occur most often with Brexit? (`textstat_frequency()` or `topfeatures()`?
+
+```{r}
+
+```
+

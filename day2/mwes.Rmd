@@ -1,0 +1,49 @@
+---
+title: "Multi-word expressions"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+library("quanteda.textmodels")
+```
+
+
+## Irish Budget Speeches
+
+In this exercise, you will implement an analysis of similarity between speakers and parties in Irish parliamentary budget speeches.
+
+
+### Exercise
+
+1. Create a dfm from `data_corpus_irishbudget2010`.
+
+```{r}
+
+```
+
+2. Group it by party and run `textstat_simil()`.
+
+```{r}
+
+```
+
+3. What parties are most similar?
+
+```{r}
+
+```
+
+4. Do the substantive conclusion change when removing stopwords and punctuation, and stemming the dfm?
+
+```{r}
+
+```
