@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
 
 ```{r}
 library("quanteda")
+library("quanteda.textmodels")
 ```
 
 
@@ -27,8 +28,22 @@ print(toks_immig, max_ntoken = 5, max_ndoc = 3)
 ### Exercise
 
 1. Tokenize while removing punctuation, and compare.
+
+```{r}
+
+```
+
 2. Tokenize while removing symbols.  Does this make any visible difference?  Try repeating the command with `verbose = TRUE`.
+
+```{r}
+
+```
+
 3. Tokenize while removing numbers, and compare as you did before.
+
+```{r}
+
+```
 
 
 ## Removing stopwords
@@ -36,9 +51,29 @@ print(toks_immig, max_ntoken = 5, max_ndoc = 3)
 ### Exercise
 
 1. Remove stopwords from the tokens, after tokenization.
+
+```{r}
+
+```
+
 2. Remove them, but with `padding = TRUE`.  What difference does this make, and when might you want to use this option?
+
+```{r}
+
+```
+
 3. Try removing the following "custom" stopwords: variations of "immigrant".
+
+```{r}
+
+```
+
 4. Try removing stopwords from another language.  How would you do this?
+
+
+```{r}
+
+```
 
 
 ## Selecting certain terms
@@ -54,6 +89,9 @@ print(toks_immig_select, max_ntoken = 5, max_ndoc = 3)
 
 Repeat the above but without `padding = TRUE`.  What is the difference?  When might you want to use padding?
 
+```{r}
+
+```
 
 ## Select certain terms and their context
 
@@ -97,8 +135,23 @@ head(kw_comp, 4)
 ## Exercise
 
 1. Tokenize `data_corpus_irishbudget2010` and compound the following party names: `fianna fáil`, `fine gael`, and `sinn féin`.
-2. Select only the three party names and the window of +-10 words
+
+```{r}
+
+```
+
+2. Select only the three party names and the window of +-10 words.
+
+```{r}
+
+```
+
 3. How can we extract only the full _sentences_ in which at least one of the parties is mentioned?
+
+```{r}
+
+```
+
 
 ---
 
@@ -144,8 +197,26 @@ dfm(dict_toks)
 ### Exercise
 
 1. Tokenize `data_corpus_irishbudget2010`.
+
+```{r}
+
+```
+
 2. Convert the tokens object, remove punctuation, change to lowercase, remove stopwords, and stem.
+
+```{r}
+
+```
+
 3. Get the number of types and tokens per speech.
+
+```{r}
+
+```
+
 4. Compare the types and tokens based on the tokens object to `ntype(data_corpus_irishbudget2010)` and `ntoken(data_corpus_irishbudget2010)`. How and why do the values differ? 
+```{r}
+
+```
 
 

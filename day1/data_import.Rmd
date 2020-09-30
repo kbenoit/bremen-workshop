@@ -52,10 +52,31 @@ encoding(myreadtext)
 ### Exercise
 
 1. Set up a RProj in a new folder.
-2. Download ZIP file with inaugural speeches by German chancellors (https://tinyurl.com/corp-regierung)
+
+```{r}
+
+```
+
+2. Download ZIP file with inaugural speeches by German chancellors (https://tinyurl.com/corp-regierung).
+
 3. Copy the folder into your RProj folder.
-4. Import all text files using `readtext()`. (Hint: "name_of_folder/*" reads in all files)
+
+```{r}
+
+```
+
+4. Import all text files using `readtext()`. (Hint: "name_of_folder/*" reads in all files).
+
+```{r}
+
+```
+
 5. Create a text corpus of this data frame. 
+
+```{r}
+
+```
+
 
 
 ## Working with the new corpus (optional)
@@ -65,7 +86,26 @@ Now we will tidy up the document variables, and then search for some terms and p
 ### Exercise
 
 1. Create better `docnames` by pasting "Year" and "Chancellor" together.
+
+```{r}
+
+```
+
 2. Select speeches by Gerhard Schröder and Angela Merkel.
-3. Use `kwic()` to select the terms "Arbeits*", "Arbeitslos*" and "Migration*"
+
+```{r}
+
+```
+
+3. Use `kwic()` to select the terms "Arbeits*", "Arbeitslos*" and "Migration*".
+
+```{r}
+
+```
+
 4. Send the results of the `kwic()` call to `?textplot_xray()`.
+
+```{r}
+
+```
 

@@ -27,6 +27,9 @@ data_corpus_inaugural %>%
 
 Add a step to the above to convert the documents in the corpus into sentences.  Hint: Insert a step calling `corpus_reshape()`.
 
+```{r}
+
+```
 
 ## Access number of types and tokens of corpus
 
@@ -49,7 +52,16 @@ head(docvars(data_corpus_inaugural))
 ### Exercise
 
 1. Based on `data_corpus_inaugural`, create an object `data_corpus_postwar` (speeches since 1945).
+
+```{r}
+
+```
+
 2. What speech has most tokens? What speech has most types?
+
+```{r}
+
+```
 
 Note: You can find the documentation and examples using `?` followed by the name of the function.
 
@@ -74,7 +86,21 @@ head(docvars(data_corpus_inaugural))
 ### Exercise
 
 1. See `?docvars`.  Is there another way to add docvars, using an operator?  Can you reproduce the code above using that method?
-2. Tokenize the corpus object to which you have added docvars.  Are the docvars still in the tokens object?
+
+```{r}
+
+```
+
+2. Tokenize the corpus object to which you have added docvars. Are the docvars still in the tokens object?
+
+```{r}
+
+```
+
 3. Make a dfm from the corpus object.  Are the docvars still in the dfm object?
+
+```{r}
+
+```
 
 
