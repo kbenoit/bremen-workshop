@@ -29,7 +29,7 @@ library("quanteda")
 1. Load the data frame into R using `dat_raw <- readRDS("data/data_corpus_drucksachen_sample.rds")`.
 
 ```{r}
-
+# my answer
 ```
 
 2. Create a text corpus from this data frame using `corpus()`.

@@ -1,5 +1,5 @@
 ---
-title: "Multi-word expressions"
+title: "Similarity and distance"
 output: github_document
 ---
 
@@ -47,3 +47,16 @@ In this exercise, you will implement an analysis of similarity between speakers 
 ```{r}
 
 ```
+
+5. What words are most similar to "Christmas"?
+
+Hints:
+- You can compare a dfm to another partial dfm by specifying `y = x[, "christmas"]`
+- Don't forget to specify `margin = "features"` argument
+- An easy way to get the top listed matches is using `as.list(n = 10)`
+
+```{r}
+
+```
+
+
