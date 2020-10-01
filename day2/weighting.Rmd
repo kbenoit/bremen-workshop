@@ -1,0 +1,44 @@
+---
+title: "Feature weighting and trimming"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+```
+
+## Frequency-based trimming
+
+For this, we will use a dfm of post-2000 presidential inaugural addreses.
+
+```{r}
+dfmat <- data_corpus_inaugural %>%
+  corpus_subset(Year >= 2000) %>%
+  dfm()
+```
+
+
+### Exercise
+
+1. Keep only the top 20 words.
+
+2. Keep ...
+
+
+## Weighting a dfm
+
+### Exercise
+
+1. Keep only the top 20 words.
+
+2. Keep ...
+
+
