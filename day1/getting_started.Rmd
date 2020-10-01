@@ -19,7 +19,6 @@ library("quanteda")
 ```
 
 
-
 ## Reproduce example in **quanteda**
 
 Create a text corpus:
@@ -32,22 +31,17 @@ corp <- corpus(c("A corpus is a set of documents.",
 _Exercise: Create this corpus and get a summary using `summary(corp)`._
 
 ```{r}
-summary(corp)
+
 ```
 
 Create some tokens:
 ```{r}
-tokens(corp)
-toks <- tokens(corp, remove_punct = TRUE)
+
 ```
 
 Create a document-feature matrix:
 ```{r}
-dfm(toks)
 
-toks %>%
-  tokens_remove(stopwords("en")) %>%
-  dfm()
 ```
 
 _Question: How does the dfm change when we change the preprocessing steps?_
@@ -55,22 +49,19 @@ _Question: How does the dfm change when we change the preprocessing steps?_
 
 ## Multiple ways to do the same thing
 
-The following expressions result in the same output
-```{r}
-corp %>% 
-    tokens()
+The following expressions result in the same output:
 
-tokens(corp)
+```{r}
+
 ```
 
 and
 
 ```{r}
-tokens(corp) %>%
-  dfm()
 
-dfm(corp)
 ```
 
 At what stage were the word features lowercased?
+
+
 
