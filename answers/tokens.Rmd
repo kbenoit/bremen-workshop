@@ -1,0 +1,268 @@
+---
+title: "Creating and working with tokens objects"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+library("quanteda.textmodels")
+```
+
+
+## Tokenization of a corpus
+
+```{r}
+corp_immig <- corpus(data_char_ukimmig2010)
+toks_immig <- tokens(corp_immig)
+print(toks_immig, max_ntoken = 5, max_ndoc = 3)
+```
+
+### Exercise
+
+1. Tokenize while removing punctuation, and compare.
+
+```{r}
+toks_immig2 <- tokens(corp_immig, remove_punct = TRUE)
+
+print(toks_immig2, max_ntoken = 5, max_ndoc = 3)
+```
+
+2. Tokenize while removing symbols.  Does this make any visible difference?  Try repeating the command with `verbose = TRUE`.
+
+```{r}
+toks_immig2 <- tokens(corp_immig, remove_punct = TRUE, verbose = TRUE, remove_symbols = TRUE)
+
+print(toks_immig2, max_ntoken = 5, max_ndoc = 3)
+```
+
+3. Tokenize while removing numbers, and compare as you did before.
+
+```{r}
+toks_immig3 <- tokens(corp_immig, remove_punct = TRUE, verbose = TRUE, remove_numbers = TRUE)
+
+print(toks_immig3, max_ntoken = 5, max_ndoc = 3)
+```
+
+
+## Removing stopwords
+
+### Exercise
+
+1. Remove stopwords from the tokens, after tokenization.
+
+```{r}
+toks_immig_nostops <- tokens(corp_immig, remove_punct = TRUE, verbose = TRUE, padding = FALSE) %>% 
+  tokens_remove(pattern = stopwords("en"))
+
+print(toks_immig_nostops, max_ntoken = 5, max_ndoc = 3)
+```
+
+2. Remove them, but with `padding = TRUE`.  What difference does this make, and when might you want to use this option?
+
+```{r}
+toks_immig_nostops_pad <- tokens(corp_immig, remove_punct = TRUE, verbose = TRUE,
+                             padding = TRUE) %>% 
+  tokens_remove(pattern = stopwords("en"), padding = TRUE)
+
+print(toks_immig_nostops_pad, max_ntoken = 5, max_ndoc = 3)
+```
+
+3. Try removing the following "custom" stopwords: variations of "immigrant".
+
+```{r}
+toks_immig_no_immigrant <- tokens(corp_immig) %>% 
+    tokens_remove(pattern = "immigrant*")
+
+print(toks_immig_no_immigrant, max_ntoken = 5, max_ndoc = 3)
+```
+
+4. Try removing stopwords from another language.  How would you do this?
+
+```{r}
+toks_immig_no_immigrant <- tokens(corp_immig) %>% 
+    tokens_remove(pattern = stopwords("de"))
+```
+
+
+## Selecting certain terms
+
+```{r}
+toks_immig_select <- tokens_keep(toks_immig,
+                                 pattern = c("immig*", "migra*"),
+                                 padding = TRUE)
+print(toks_immig_select, max_ntoken = 5, max_ndoc = 3)
+```
+
+### Exercise
+
+Repeat the above but without `padding = TRUE`.  What is the difference?  When might you want to use padding?
+
+```{r}
+toks_immig_select_nopad <- tokens_keep(toks_immig,
+                                 pattern = c("immig*", "migra*"),
+                                 padding = FALSE)
+
+print(toks_immig_select_nopad, max_ntoken = 5, max_ndoc = 3)
+```
+
+## Select certain terms and their context
+
+```{r}
+# specify number of surrounding words using window
+toks_immig_window <- tokens_keep(toks_immig, 
+                                   pattern = c('immig*', 'migra*'),
+                                   padding = TRUE, window = 5)
+print(toks_immig_window, max_ntoken = 20, max_ndoc = 3)
+```
+
+
+
+## Compound multiword expressions
+
+```{r}
+kw_multi <- kwic(data_char_ukimmig2010, 
+                 phrase(c('asylum seeker*', 'british citizen*')))
+head(kw_multi, 5)
+```
+
+### Exercise
+
+Why was the `phrase()` function called, and what does it do?
+
+To account for and correctly handle multiword expressions.
+
+## Compound multiword expressions
+
+Preserve these expressions in bag-of-word analysis: 
+
+```{r}
+toks_comp <- tokens(data_char_ukimmig2010) %>% 
+  tokens_compound(phrase(c('asylum seeker*', 'british citizen*')))
+
+kw_comp <- kwic(toks_comp, c('asylum_seeker*', 'british_citizen*'))
+head(kw_comp, 4)
+```
+
+
+## Exercise
+
+1. Tokenize `data_corpus_irishbudget2010` and compound the following party names: `fianna fáil`, `fine gael`, and `sinn féin`.
+
+```{r}
+toks_parties <- tokens(data_corpus_irishbudget2010) %>% 
+  tokens_compound(pattern = phrase(c("fianna fáil",
+                                     "fine gael",
+                                     "sinn féin")))
+
+kwic(toks_parties, pattern = phrase("fianna fáil"))
+
+kwic(toks_parties, pattern = phrase("fianna_fáil"))
+
+```
+
+2. Select only the three party names and the window of +-10 words.
+
+```{r}
+toks_parties_kept <- tokens(data_corpus_irishbudget2010) %>% 
+  tokens_compound(pattern = phrase(c("fianna fáil",
+                                     "fine gael",
+                                     "sinn féin"))) %>% 
+  tokens_keep(pattern = c("fiana_fáil",
+                          "fine_gael",
+                          "sinn_féin"),
+              window = 10)
+```
+
+3. How can we extract only the full _sentences_ in which at least one of the parties is mentioned?
+
+```{r}
+toks_parties_kept_sent <- data_corpus_irishbudget2010 %>% 
+  corpus_reshape(to = "sentences") %>% # reshape to sentences
+  tokens() %>% 
+  tokens_compound(pattern = phrase(c("fianna fáil",
+                                     "fine gael",
+                                     "sinn féin"))) %>% 
+  tokens_keep(pattern = c("fiana_fáil",
+                          "fine_gael",
+                          "sinn_féin"),
+              window = 10000) # set very large window to keep all features in sentences
+```
+
+
+## N-grams
+
+```{r}
+# unigrams
+tokens("insurgents killed in ongoing fighting")
+
+# bigrams
+tokens("insurgents killed in ongoing fighting") %>% 
+    tokens_ngrams(n = 2)
+
+# skip-grams
+tokens("insurgents killed in ongoing fighting") %>% 
+    tokens_skipgrams(n = 2, skip = 0:1)
+```
+
+
+## Look up tokens from a dictionary
+
+```{r}
+toks <- tokens(data_char_ukimmig2010)
+
+dict <- dictionary(list(refugee = c('refugee*', 'asylum*'),
+                        worker = c('worker*', 'employee*')))
+print(dict)
+
+dict_toks <- tokens_lookup(toks, dictionary = dict)
+head(dict_toks, 2)
+```
+
+
+
+## The transition from tokens() to dfm()
+
+```{r}
+dfm(dict_toks)
+```
+
+
+### Exercise
+
+1. Tokenize `data_corpus_irishbudget2010`.
+
+```{r}
+toks_ire <- tokens(data_corpus_irishbudget2010)
+```
+
+2. Convert the tokens object, remove punctuation, change to lowercase, remove stopwords, and stem.
+
+```{r}
+toks_ire_processed <- tokens(toks_ire, remove_punct = TRUE) %>%
+  tokens_remove(pattern = stopwords("en")) %>% 
+  tokens_wordstem()
+```
+
+3. Get the number of types and tokens per speech.
+
+```{r}
+ntype(toks_ire)
+ntoken(toks_ire)
+```
+
+4. Compare the types and tokens based on the tokens object to `ntype(data_corpus_irishbudget2010)` and `ntoken(data_corpus_irishbudget2010)`. How and why do the values differ? 
+
+```{r}
+ntype(data_corpus_irishbudget2010)
+ntoken(data_corpus_irishbudget2010)
+```
+
+The values differ because the features have been removed from the tokens object, while these features are part of the original corpus object. 

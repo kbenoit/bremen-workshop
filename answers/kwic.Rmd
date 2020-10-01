@@ -1,0 +1,56 @@
+---
+title: "Keywords-in-context"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+```
+
+
+## US Inaugural Speeches
+
+In this exercise, you will explore some of the terms and their immediate context in US inaugural speeches.
+
+## Exercise
+
+1. In what context were "God" and "God bless" used in US presidential inaugural speeches after 1970?
+
+```{r}
+corp_since1970 <- corpus_subset(data_corpus_inaugural, Year > 1970)
+
+kwic(corp_since1970, pattern = "god")
+```
+
+2. Look up keywords-in-context for `god`, `god bless` (wrapping the latter in `phrase()`) in one `kwic()` call.
+
+```{r}
+kwic(corp_since1970, pattern = c("god", phrase("god bless")))
+
+list_check <- c("god", "god bless")
+kwic(corp_since1970, pattern = phrase(list_check))
+
+my_kwic <- kwic(corp_since1970, pattern = phrase(c("god", "god bless")), window = 20)
+
+dat_kwic <- data.frame(my_kwic)
+# write.csv(dat_kwic, "dat_kwic.csv")
+```
+
+3. BONUS: Send the results of the kwic output to `textplot_xray()`.
+
+```{r}
+textplot_xray(my_kwic, scale = "relative")
+
+textplot_xray(my_kwic, scale = "absolute")
+```
+
+
+
