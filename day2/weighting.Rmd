@@ -30,15 +30,56 @@ dfmat <- data_corpus_inaugural %>%
 
 1. Keep only the top 20 words.
 
-2. Keep ...
+```{r}
+
+```
 
 
 ## Weighting a dfm
 
 ### Exercise
 
-1. Keep only the top 20 words.
+1. Use `data_corpus_inaugural` and filter only speeches delivered since 2000.
 
-2. Keep ...
+```{r}
 
+```
+
+2. Create a document-feature matrix
+
+```{r}
+
+```
+
+3. Weight the dfm by tf-idf.
+
+```{r}
+
+```
+
+4. Get the 10 features with the highest tf-idf values _per speech_.
+
+```{r}
+
+```
+
+### Bonus Exercises
+
+5. Use `dfm_group()` to group the document-feature matrix by speaker.
+
+```{r}
+
+```
+
+6. Repeat the tf-idf weighting for the grouped document-feature matrix.
+
+```{r}
+
+```
+
+7. Get the 10 features with the highest tf-idf values _per speaker_.
+
+```{r}
+
+```
 
