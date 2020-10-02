@@ -55,7 +55,7 @@ In this exercise, we will continue to work with the Irish budget corpus.
 
 ```
 
-2. Plot the results and compare to thw Wordscores analysis.
+2. Plot the results and compare to the Wordscores analysis.
 
 ```{r}
 
