@@ -1,0 +1,57 @@
+---
+title: "Sentiment analysis"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+```
+
+## Exercise
+
+In this exercise, we work with 2000 movie reviews. This corpus is included as `data_corpus_moviereviews` in the **quanteda.textmodels** package.
+
+```{r}
+# get the text corpus
+data(data_corpus_moviereviews, package = "quanteda.textmodels")
+```
+
+1. Use `data_corpus_moviereviews` (included in **quanteda.textmodels**) and apply a sentiment analysis to each review using `data_dicionary_LSD2015` as the input. Convert the `dfm` to a data frame.
+
+```{r}
+
+```
+
+
+2. Add a new variable `log_sentiment` to the data frame: $log((positive + neg-negative + 0.5) / (negative + neg-positive + 0.5))$.
+
+```{r}
+
+```
+
+3. Inspect the distribution of sentiment scores by printing summary statistics of the variable (hint: `summary(name_of_your_dataframe$log_sentiment)`).
+
+```{r}
+
+```
+
+4. BONUS: Add the document-level variable "sentiment" to the data frame that contains the variables from the sentiment analysis.
+
+```{r}
+
+```
+
+5. BONUS: Create a boxplot with the classified sentiment on the x-axis and the sentiment scores from the dictionary on the y-axis.
+
+```{r}
+
+```
+
