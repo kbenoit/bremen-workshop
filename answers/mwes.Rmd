@@ -1,0 +1,62 @@
+---
+title: "Similarity and distance"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+```
+
+
+## Irish Budget Speeches
+
+In **quanteda**, we use the function `textstat_collocations()` to estimate the likelihood of co-occurrence of word sequences.
+
+```{r}
+data(data_corpus_irishbudget2010, package = "quanteda.textmodels")
+tstat_col <- data_corpus_irishbudget2010 %>% 
+    tokens() %>% 
+    textstat_collocations(min_count = 20, tolower = TRUE)
+
+head(tstat_col, 7)
+```
+
+
+### Exercise
+
+1. Repeat the step above, but remove stopwords, and stem the `tokens` object.
+
+```{r}
+tstat_col <- data_corpus_irishbudget2010 %>% 
+    tokens() %>% 
+    tokens_remove(stopwords("en")) %>%
+    tokens_wordstem() %>%
+    textstat_collocations(min_count = 20, tolower = TRUE)
+
+head(tstat_col, 20)
+```
+
+2. Compare the most frequent collocations. What has changed?
+
+*We are getting almost all keepers, not stopword collocations.*
+
+3. Try the second step again, with `padding = TRUE`.  What is the difference?
+
+```{r}
+tstat_col <- data_corpus_irishbudget2010 %>% 
+    tokens() %>% 
+    tokens_remove(stopwords("en"), padding = TRUE) %>%
+    tokens_wordstem() %>%
+    textstat_collocations(min_count = 20, tolower = TRUE)
+
+head(tstat_col, 20)
+```
+

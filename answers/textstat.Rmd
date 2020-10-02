@@ -1,0 +1,83 @@
+---
+title: "Computing textual statistics"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+```
+
+## Frequency analysis
+
+### Exercise
+
+Here we will work with a large corpus of articles from the Guardian newspaper.
+
+1. Use `data_corpus_guardian` from the **quanteda.corpora** package.
+
+```{r}
+data_corpus_guardian <- quanteda.corpora::download('data_corpus_guardian')
+```
+
+2. Create a `tokens` object and remove stopwords and punctuation.
+
+```{r}
+toks <- tokens(data_corpus_guardian, remove_punct = TRUE, remove_symbols = TRUE) %>%
+    tokens_remove(stopwords("en"))
+```
+
+
+3. Keep only the term "Brexit*" and a window of 5 words.
+
+Hint: Use `tokens_keep()`.
+
+```{r}
+toks <- tokens_keep(toks, pattern = "brexit*", window = 5)
+```
+
+
+4. Which terms co-occur most often with Brexit? (`textstat_frequency()` or `topfeatures()`?
+
+```{r}
+dfm(toks) %>%
+    textstat_frequency(n = 20)
+```
+
+
+## Readability and lexical diversity
+
+### Exercise
+
+1. Load the Irish budget speeches
+
+```{r}
+data(data_corpus_irishbudget2010, package = "quanteda.textmodels")
+```
+
+2. Compute the Flesch-Kincaid measure for each speech.  Which were the highest and lowest speeches on this measure?
+
+```{r}
+tstatr <- textstat_readability(data_corpus_irishbudget2010, measure = "Flesch.Kincaid")
+library("dplyr")
+arrange(tstatr, desc(Flesch.Kincaid)) %>%
+    top_n(3)
+```
+
+
+3. Compute the lexical diversity using the MATTR measure.  Which were the highest and lowest speeches on this measure?
+
+```{r}
+tstatl <- textstat_lexdiv(tokens(data_corpus_irishbudget2010), measure = "MATTR")
+arrange(tstatl, desc(MATTR)) %>%
+    top_n(3)
+
+```
+
