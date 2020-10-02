@@ -1,0 +1,99 @@
+---
+title: "Scaling documents"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+library("quanteda.textmodels")
+```
+
+## Exercise: Wordscores
+
+In this exercise, we will work with the Irish budget corpus.
+
+1. Use `data_corpus_irishbudget2010` (included in **quanteda.textmodels**) as in the slides, but set the reference documents as -1 for Richard Bruton (the opposition's shadow finance minister) and +1 for Brian Lenihan (the government finance minister).
+
+```{r}
+dfmat <- dfm(data_corpus_irishbudget2010)
+refscores <- c(1, -1, rep(NA, 12))
+tmod1 <- textmodel_wordscores(dfmat, y = refscores, smooth = 1)
+```
+
+2. Examine the thetas, using `coef()`.
+
+```{r}
+thetas_ws <- predict(tmod1)
+thetas_ws
+```
+
+3. Predict the values using `predict()`.
+
+```{r}
+# same as above
+```
+
+4. Plot the results using `textplot_scale1d()`, and group the results by party.
+
+```{r}
+textplot_scale1d(predict(tmod1, se.fit = TRUE), groups = dfmat$party)
+```
+
+
+## Exercise: Wordfish
+
+In this exercise, we will continue to work with the Irish budget corpus.
+
+1. Use `data_corpus_irishbudget2010` but with `textmodel_wordfish()`.  Set the `dir` to force Bruton to be left of Lenihan.  What does this mean?
+
+```{r}
+tmod2 <- textmodel_wordfish(dfmat, dir = c(2, 1))
+```
+
+2. Plot the results and compare to the Wordscores analysis.
+
+```{r}
+words_ws <- coef(tmod1)
+words_wf <- coef(tmod2, margin = "features")
+length(words_ws)
+head(words_ws)
+length(words_wf)
+head(words_wf)
+
+df <- data.frame(words_ws, words_wf = words_wf[names(words_ws), "beta"])
+
+library("ggplot2")
+ggplot(df, aes(x = words_ws, y = words_wf)) +
+    geom_point()
+```
+
+```{r}
+df <- data.frame(docs_ws = predict(tmod1), 
+                 docs_wf = coef(tmod2, margin = "documents")[, "theta"])
+ggplot(df, aes(x = docs_ws, y = docs_wf)) +
+    geom_point()
+```
+
+## Exercise: Correspondence Analysis
+
+Fit a correspondence analysis to the data using `textmodel_ca()`.  Compare the document positions from the first dimension to those from the Wordfish thetas. Do this using a scatter plot.
+
+```{r}
+tmod_ca <- textmodel_ca(dfmat)
+df <- data.frame(docs_ca = coef(tmod_ca)[["coef_document"]], 
+                 docs_wf = coef(tmod2, margin = "documents")[, "theta"])
+ggplot(df, aes(x = docs_ca, y = docs_wf)) +
+    geom_point()
+```
+```{r}
+textplot_scale1d(tmod_ca, groups = dfmat$party)
+```
+

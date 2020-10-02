@@ -1,0 +1,72 @@
+---
+title: "Classifying documents"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+library("quanteda.textmodels")
+```
+
+## Exercise: Movie reviews
+
+In this exercise, we will predict the "sentiment" of movie reviews.  This makes use of `data_corpus_moviereviews` (included in **quanteda.textmodels**).  This contains 1000 positive and 1000 negative movie reviews, labelled with the document variable "sentiment".
+
+Here is some starter code that creates a training set from 200 documents from each class.
+```{r}
+set.seed(100)
+
+corp_train <- corpus_sample(data_corpus_moviereviews, size = 200,
+                            by = "sentiment")
+
+corp_test <- corpus_subset(data_corpus_moviereviews, 
+                           ! docnames(data_corpus_moviereviews) %in% docnames(corp_train))
+
+
+dfmat_train <- dfm(corp_train)
+dfmat_test <- dfm(corp_test)
+
+tmod <- textmodel_nb(dfmat_train, y = dfmat_train$sentiment)
+```
+
+
+1. Extract the predicted sentiment by predicting tmod on the dfmat_test.
+
+```{r}
+pred <- predict(tmod, newdata = dfmat_test, force = TRUE)
+head(pred)
+table(pred)
+```
+
+2. Compare this using `table()` to the actual sentiment from the human categories.  Hint: This is the `sentiment` from `dfmat_test`.
+
+```{r}
+table(pred, dfmat_test$sentiment)[2:1, 2:1] %>%
+    caret::confusionMatrix()
+```
+
+3. Try to repeat the analysis using `textmodel_svm()`, and compare the results.
+
+```{r}
+tmod2 <- textmodel_svm(dfmat_train, y = dfmat_train$sentiment)
+pred2 <- predict(tmod2, newdata = dfmat_test, force = TRUE)
+table(pred2, dfmat_test$sentiment)[2:1, 2:1] %>%
+    caret::confusionMatrix()
+
+dfmat_train2 <- dfm_tfidf(dfmat_train)
+dfmat_test2 <- dfm_tfidf(dfmat_test)
+tmod2 <- textmodel_svm(dfmat_train2, y = dfmat_train$sentiment)
+pred2 <- predict(tmod2, newdata = dfmat_test2, force = TRUE)
+table(pred2, dfmat_test$sentiment)[2:1, 2:1] %>%
+    caret::confusionMatrix()
+
+```
+
