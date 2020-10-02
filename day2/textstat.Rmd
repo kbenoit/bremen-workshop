@@ -45,6 +45,10 @@ Hint: Use `tokens_keep()`.
 
 4. Which terms co-occur most often with Brexit? (`textstat_frequency()` or `topfeatures()`?
 
+```{r}
+
+```
+
 
 ## Readability and lexical diversity
 
@@ -63,7 +67,7 @@ data(data_corpus_irishbudget2010, package = "quanteda.textmodels")
 ```
 
 
-3. Compute the lexical diversity using the MATTR measure.  Which were the highest and lowest speeches on this measure?
+3. Compute the lexical diversity using the MATTR measure. Which were the highest and lowest speeches on this measure?
 
 ```{r}
 
