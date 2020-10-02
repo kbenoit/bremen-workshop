@@ -1,0 +1,71 @@
+---
+title: "Scaling documents"
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "images/"
+)
+```
+
+```{r}
+library("quanteda")
+library("quanteda.textmodels")
+```
+
+## Exercise: Wordscores
+
+In this exercise, we will work with the Irish budget corpus.
+
+1. Use `data_corpus_irishbudget2010` (included in **quanteda.textmodels**) as in the slides, but set the reference documents as -1 for Richard Bruton (the opposition's shadow finance minister) and +1 for Brian Lenihan (the government finance minister).
+
+```{r}
+
+```
+
+2. Examine the thetas, using `coef()`.
+
+```{r}
+
+```
+
+3. Predict the values using `predict()`.
+
+```{r}
+
+```
+
+4. Plot the results using `textplot_scale1d()`, and group the results by party.
+
+```{r}
+
+```
+
+
+## Exercise: Wordfish
+
+In this exercise, we will continue to work with the Irish budget corpus.
+
+1. Use `data_corpus_irishbudget2010` but with `textmodel_wordfish()`.  Set the `dir` to force Bruton to be left of Lenihan.  What does this mean?
+
+```{r}
+
+```
+
+2. Plot the results and compare to thw Wordscores analysis.
+
+```{r}
+
+```
+
+
+## Exercise: Correspondence Analysis
+
+Fit a correspondence analysis to the data using `textmodel_ca()`.  Compare the document positions from the first dimension to those from the Wordfish thetas. Do this using a scatter plot.
+
+```{r}
+
+```
